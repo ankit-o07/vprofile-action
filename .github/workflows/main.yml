@@ -12,18 +12,20 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
-      - name: Maven test
-        run: mvn test
-
-      - name: Checkstyle
-        run: mvn checkstyle:checkstyle
-
       # Setup java 11 to be default (sonar-scanner requirement as of 5.x)
       - name: Set Java 11
         uses: actions/setup-java@v3
         with:
          distribution: 'temurin' # See 'Supported distributions' for available options
          java-version: '11'
+
+      - name: Maven test
+        run: mvn test
+
+      - name: Checkstyle
+        run: mvn checkstyle:checkstyle
+
+      
 
       # Setup sonar-scanner
       - name: Setup SonarQube
@@ -43,7 +45,7 @@ jobs:
             -Dsonar.jacoco.reportsPath=target/jacoco.exec \
             -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml \
             -Dsonar.java.binaries=target/
-            
+
       # Check the Quality Gate status.
       - name: SonarQube Quality Gate check
         id: sonarqube-quality-gate-check
